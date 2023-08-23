@@ -8,5 +8,10 @@
   },
   "scripts": {
     "start": "npm start --prefix servidor"
-  }
+  },
+  "name": "on-the-run",
+  "description": "Jogo de Aventura",
+  "version": "0.1.0",
+  "author": "Natália Ferrari <natalia.ef2006@aluno.ifsc.edu.br>",
+  "license": "MIT"
 }
