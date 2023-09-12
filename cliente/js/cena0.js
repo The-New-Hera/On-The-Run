@@ -4,18 +4,32 @@ export default class cena0 extends Phaser.Scene {
   }
 
   preload () {
+    this.load.tilemapTiledJSON('mapa', '../assets/mapa/mapa.json')
+
     this.load.image('ifsc-sj-2014', '../assets/ifsc-sj-2014.png')
     this.load.image('[64x64] Dungeon Bricks Shadow', '../assets/[64x64]Dungeon Bricks Shadow.png')
     this.load.image('bloco roxo', '../assets/bloco roxo.png')
     this.load.image('fogo', '../assets/fogo.png')
-    this.load.image('diamante', '../assets/diamante.png')
-    this.load.spritesheet('alien rosa', '../assets/alien rosa.png')
-    this.load.spritesheet('Derek', '../assets/Derek.png',
-      {
-        frameWidth: 64,
-        frameHeight: 64
-      }
-    )
+
+    this.load.spritesheet('moeda', '../assets/moeda.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    })
+
+    this.load.spritesheet('alien rosa', '../assets/alien rosa.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    })
+
+    this.load.spritesheet('alien verde', '../assets/alien verde.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    })
+
+    this.load.spritesheet('Derek', '../assets/Derek.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    })
 
     this.load.spritesheet('direita', '../assets/direita.png', {
       frameWidth: 64,
@@ -34,11 +48,22 @@ export default class cena0 extends Phaser.Scene {
   }
 
   create () {
+    this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
+
+    this.tilesetFogo = this.tilemapMapa.addTilesetImage('fogo')
+    this.tilesetBlocoRoxo = this.tilemapMapa.addTilesetImage('bloco roxo')
+    this.tilesetBlocoEscuro = this.tilemapMapa.addTilesetImage('[64x64] Dungeon Bricks Shadow')
+
+    this.layerPiso = this.tilemapMapa.createLayer('piso', [this.tilesetBlocoRoxo])
+    this.layerFundo = this.tilemapMapa.createLayer('fundo', [this.tilesetBlocoEscuro])
+    this.layerChamas = this.tilemapMapa.createLayer('chamas', [this.tilesetFogo])
+
     /* Imagem de fundo */
     this.add.image(400, 225, 'ifsc-sj-2014')
 
     /* Personagem */
     this.personagem = this.physics.add.sprite(400, 225, 'Derek')
+    this.cameras.main.startFollow(this.personagem)
 
     /* Animações */
     this.anims.create({
@@ -77,6 +102,18 @@ export default class cena0 extends Phaser.Scene {
         end: 2
       }),
       frameRate: 6,
+      repeat: -1
+    })
+
+    this.moeda = this.physics.add.sprite(200, -30, 'moeda')
+
+    this.anims.create({
+      key: 'moeda-brilhando',
+      frames: this.anims.generateFrameNumbers('moeda', {
+        start: 0,
+        end: 3
+      }),
+      frameRate: 12,
       repeat: -1
     })
 
