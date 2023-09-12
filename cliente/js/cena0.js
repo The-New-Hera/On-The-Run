@@ -5,6 +5,11 @@ export default class cena0 extends Phaser.Scene {
 
   preload () {
     this.load.image('ifsc-sj-2014', '../assets/ifsc-sj-2014.png')
+    this.load.image('[64x64] Dungeon Bricks Shadow', '../assets/[64x64]Dungeon Bricks Shadow.png')
+    this.load.image('bloco roxo', '../assets/bloco roxo.png')
+    this.load.image('fogo', '../assets/fogo.png')
+    this.load.image('diamante', '../assets/diamante.png')
+    this.load.spritesheet('alien rosa', '../assets/alien rosa.png')
     this.load.spritesheet('Derek', '../assets/Derek.png',
       {
         frameWidth: 64,
