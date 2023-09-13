@@ -6,7 +6,7 @@ export default class labirinto extends Phaser.Scene {
   }
 
   preload () {
-    this.load.tilemapTiledJSON('labirinto', '../assets/labirinto/mapa.json')
+    this.load.tilemapTiledJSON('labirinto', '../assets/mapa.json')
 
     this.load.image('blocoescuro', '../assets/blocoescuro.png')
     this.load.image('blocoroxo', '../assets/blocoroxo.png')
@@ -18,13 +18,13 @@ export default class labirinto extends Phaser.Scene {
     })
 
     this.load.spritesheet('alienrosa', '../assets/alienrosa.png', {
-      frameWidth: 64,
-      frameHeight: 64
+      frameWidth: 36,
+      frameHeight: 54
     })
 
     this.load.spritesheet('alienverde', '../assets/alienverde.png', {
-      frameWidth: 64,
-      frameHeight: 64
+      frameWidth: 36,
+      frameHeight: 52
     })
 
     this.load.spritesheet('direita', '../assets/direita.png', {
@@ -84,7 +84,7 @@ export default class labirinto extends Phaser.Scene {
       key: 'alienverde-direita',
       frames: this.anims.generateFrameNumbers('alienverde', {
         start: 12,
-        end: 20
+        end: 19
       }),
       frameRate: 6,
       repeat: -1
