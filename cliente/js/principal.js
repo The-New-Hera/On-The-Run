@@ -1,12 +1,12 @@
-export default class labirinto extends Phaser.Scene {
+export default class principal extends Phaser.Scene {
   constructor () {
-    super('labirinto')
+    super('principal')
 
-    this.velocidade = 200
+    this.velocidade = 500
   }
 
   preload () {
-    this.load.tilemapTiledJSON('labirinto', '../assets/mapa.json')
+    this.load.tilemapTiledJSON('principal', '../assets/mapa.json')
 
     this.load.image('blocoescuro', '../assets/blocoescuro.png')
     this.load.image('blocoroxo', '../assets/blocoroxo.png')
@@ -18,12 +18,12 @@ export default class labirinto extends Phaser.Scene {
     })
 
     this.load.spritesheet('alienrosa', '../assets/alienrosa.png', {
-      frameWidth: 36,
-      frameHeight: 54
+      frameWidth: 40,
+      frameHeight: 52
     })
 
     this.load.spritesheet('alienverde', '../assets/alienverde.png', {
-      frameWidth: 36,
+      frameWidth: 40,
       frameHeight: 52
     })
 
@@ -44,21 +44,21 @@ export default class labirinto extends Phaser.Scene {
   }
 
   create () {
-    this.tilemapLabirinto = this.make.tilemap({
-      key: 'labirinto'
+    this.tilemapPrincipal = this.make.tilemap({
+      key: 'principal'
     })
 
-    this.tilesetFogo = this.tilemapLabirinto.addTilesetImage('fogo')
-    this.tilesetBlocoroxo = this.tilemapLabirinto.addTilesetImage('blocoroxo')
-    this.tilesetBlocoescuro = this.tilemapLabirinto.addTilesetImage('blocoescuro')
+    this.tilesetFogo = this.tilemapPrincipal.addTilesetImage('fogo')
+    this.tilesetBlocoroxo = this.tilemapPrincipal.addTilesetImage('blocoroxo')
+    this.tilesetBlocoescuro = this.tilemapPrincipal.addTilesetImage('blocoescuro')
 
-    this.layerPiso = this.tilemapLabirinto.createLayer('piso', [this.tilesetBlocoroxo])
-    this.layerFundo = this.tilemapLabirinto.createLayer('fundo', [this.tilesetBlocoescuro])
-    this.layerChamas = this.tilemapLabirinto.createLayer('chamas', [this.tilesetFogo])
+    this.layerFundo = this.tilemapPrincipal.createLayer('fundo', [this.tilesetBlocoescuro])
+    this.layerChamas = this.tilemapPrincipal.createLayer('chamas', [this.tilesetFogo])
+    this.layerPiso = this.tilemapPrincipal.createLayer('piso', [this.tilesetBlocoroxo])
 
     /* Personagem */
     this.personagem = this.physics.add.sprite(400, 225, 'alienverde')
-    this.personagem = this.physics.add.sprite(400, 225, 'alienrosa')
+    this.personagem = this.physics.add.sprite(400, -350, 'alienrosa')
     this.cameras.main.startFollow(this.personagem)
 
     /* Animações */
@@ -94,7 +94,7 @@ export default class labirinto extends Phaser.Scene {
       key: 'alienrosa-direita',
       frames: this.anims.generateFrameNumbers('alienrosa', {
         start: 11,
-        end: 19
+        end: 18
       }),
       frameRate: 6,
       repeat: -1
@@ -114,7 +114,7 @@ export default class labirinto extends Phaser.Scene {
       key: 'alienrosa-esquerda',
       frames: this.anims.generateFrameNumbers('alienrosa', {
         start: 1,
-        end: 9
+        end: 8
       }),
       frameRate: 6,
       repeat: -1
@@ -160,12 +160,12 @@ export default class labirinto extends Phaser.Scene {
       .setInteractive()
       .on('pointerdown', () => {
         this.direita.setFrame(1)
-        this.personagem.anims.play('derek-direita', true)
+        this.personagem.anims.play('alienrosa-direita', true)
         this.personagem.setVelocityX(this.velocidade)
       })
       .on('pointerup', () => {
         this.direita.setFrame(0)
-        this.personagem.anims.play('derek-parado')
+        this.personagem.anims.play('alienrosa-parado')
         this.personagem.setVelocityX(0)
       })
 
@@ -174,12 +174,12 @@ export default class labirinto extends Phaser.Scene {
       .setInteractive()
       .on('pointerdown', () => {
         this.esquerda.setFrame(1)
-        this.personagem.anims.play('derek-esquerda', true)
+        this.personagem.anims.play('alienrosa-esquerda', true)
         this.personagem.setVelocityX(-this.velocidade)
       })
       .on('pointerup', () => {
         this.esquerda.setFrame(0)
-        this.personagem.anims.play('derek-parado')
+        this.personagem.anims.play('alienrosa-parado')
         this.personagem.setVelocityX(0)
       })
 
@@ -188,12 +188,12 @@ export default class labirinto extends Phaser.Scene {
       .setInteractive()
       .on('pointerdown', () => {
         this.cima.setFrame(1)
-        this.personagem.anims.play('derek-cima', true)
+        this.personagem.anims.play('alienrosa-cima', true)
         this.personagem.setVelocityY(-this.velocidade)
       })
       .on('pointerup', () => {
         this.cima.setFrame(0)
-        this.personagem.anims.play('derek-parado')
+        this.personagem.anims.play('alienrosa-parado')
         this.personagem.setVelocityY(0)
       })
 
