@@ -41,9 +41,17 @@ export default class principal extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64
     })
+
+    this.load.audio('metal', '../assets/metal.mp3')
+    this.load.audio('trilha', '../assets/techno.mp3')
   }
 
   create () {
+    this.trilha = this.sound.add('trilha')
+    this.efeitoMetal = this.sound.add('metal')
+    this.trilha.loop = true
+    this.trilha.play()
+
     this.tilemapPrincipal = this.make.tilemap({
       key: 'principal'
     })
@@ -57,8 +65,8 @@ export default class principal extends Phaser.Scene {
     this.layerPiso = this.tilemapPrincipal.createLayer('piso', [this.tilesetBlocoroxo])
 
     /* Personagem */
-    this.personagem = this.physics.add.sprite(400, 225, 'alienverde')
-    this.personagem = this.physics.add.sprite(400, -350, 'alienrosa')
+    // this.personagem = this.physics.add.sprite(400, -1200, 'alienverde')
+    this.personagem = this.physics.add.sprite(400, -1200, 'alienrosa')
     this.cameras.main.startFollow(this.personagem)
 
     /* Animações */
@@ -201,14 +209,26 @@ export default class principal extends Phaser.Scene {
     this.layerChamas.setCollisionByProperty({ collides: true })
 
     this.physics.add.collider(this.personagem, this.layerPiso)
-    this.physics.add.collider(this.personagem, this.layerChamas)
+    this.physics.add.collider(this.personagem, this.layerChamas, this.morreu, null, this)
 
-    this.physics.add.collider(this.personagem, this.moeda, this.coletar_moeda, null, this)
+    this.physics.add.overlap(
+      this.personagem,
+      this.moeda,
+      this.coletar_moeda,
+      null,
+      this
+    )
   }
 
   update () { }
 
   coletar_moeda () {
+    this.efeitoMetal.play()
     this.moeda.disableBody(true, true)
+  }
+
+  morreu () {
+    this.game.scene.stop()
+    this.game.scene.start('finaltriste')
   }
 }
