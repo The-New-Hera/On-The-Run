@@ -65,8 +65,8 @@ export default class principal extends Phaser.Scene {
     this.layerPiso = this.tilemapPrincipal.createLayer('piso', [this.tilesetBlocoroxo])
 
     /* Personagem */
-    // this.personagem = this.physics.add.sprite(400, -1200, 'alienverde')
-    this.personagem = this.physics.add.sprite(400, -1200, 'alienrosa')
+    // this.personagem = this.physics.add.sprite(400, -1400, 'alienverde')
+    this.personagem = this.physics.add.sprite(400, -1400, 'alienrosa')
     this.cameras.main.startFollow(this.personagem)
 
     /* Animações */
