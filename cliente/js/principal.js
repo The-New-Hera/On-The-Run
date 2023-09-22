@@ -3,6 +3,8 @@ export default class principal extends Phaser.Scene {
     super('principal')
 
     this.velocidade = 500
+    this.x = 400
+    this.y = -1400
   }
 
   preload () {
@@ -43,12 +45,18 @@ export default class principal extends Phaser.Scene {
     })
 
     this.load.audio('metal', '../assets/metal.mp3')
+    this.load.audio('somdepulo', '../assets/somdepulo.mp3')
     this.load.audio('trilha', '../assets/techno.mp3')
+    this.load.audio('grade', '../assets/grade.mp3')
+    this.load.audio('palanque', '../assets/palanque.mp3')
   }
 
   create () {
     this.trilha = this.sound.add('trilha')
     this.efeitoMetal = this.sound.add('metal')
+    this.somdepulo = this.sound.add('somdepulo')
+    this.grade = this.sound.add('grade')
+    this.palanque = this.sound.add('palanque')
     this.trilha.loop = true
     this.trilha.play()
 
@@ -66,7 +74,7 @@ export default class principal extends Phaser.Scene {
 
     /* Personagem */
     // this.personagem = this.physics.add.sprite(400, -1400, 'alienverde')
-    this.personagem = this.physics.add.sprite(400, -1400, 'alienrosa')
+    this.personagem = this.physics.add.sprite(this.x, this.y, 'alienrosa')
     this.cameras.main.startFollow(this.personagem)
 
     /* Animações */
@@ -196,13 +204,15 @@ export default class principal extends Phaser.Scene {
       .setInteractive()
       .on('pointerdown', () => {
         this.cima.setFrame(1)
-        this.personagem.anims.play('alienrosa-cima', true)
-        this.personagem.setVelocityY(-this.velocidade)
+        if (this.personagem.body.blocked.down) {
+          this.personagem.anims.play('alienrosa-cima', true)
+          this.personagem.setVelocityY(-this.velocidade)
+          this.somdepulo.play()
+        }
       })
       .on('pointerup', () => {
         this.cima.setFrame(0)
         this.personagem.anims.play('alienrosa-parado')
-        this.personagem.setVelocityY(0)
       })
 
     this.layerPiso.setCollisionByProperty({ collides: true })
@@ -228,6 +238,11 @@ export default class principal extends Phaser.Scene {
   }
 
   morreu () {
+    this.personagem.setVelocityX(0)
+    this.personagem.setVelocityY(0)
+    this.personagem.anims.play('alienrosa-parado')
+    this.personagem.x = this.x
+    this.personagem.y = this.y
     this.game.scene.stop()
     this.game.scene.start('finaltriste')
   }

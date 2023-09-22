@@ -5,6 +5,7 @@ export default class finaltriste extends Phaser.Scene {
 
   preload () {
     this.load.image('finaltriste', '../assets/finaltriste.png')
+    this.load.audio('somtriste', '../assets/somtriste.mp3')
   }
 
   create () {
@@ -14,6 +15,8 @@ export default class finaltriste extends Phaser.Scene {
         this.game.scene.stop('finaltriste')
         this.game.scene.start('abertura')
       })
+    this.somtriste = this.sound.add('somtriste')
+    this.somtriste.play()
   }
 
   update () { }
