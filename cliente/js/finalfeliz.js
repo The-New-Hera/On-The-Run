@@ -5,6 +5,7 @@ export default class finalfeliz extends Phaser.Scene {
 
   preload () {
     this.load.image('finalfeliz', '../assets/finalfeliz.png')
+    this.load.audio('somfeliz', '../assets/somfeliz.mp3')
   }
 
   create () {
@@ -14,6 +15,8 @@ export default class finalfeliz extends Phaser.Scene {
         this.game.scene.stop('finalfeliz')
         this.game.scene.start('abertura')
       })
+    this.somfeliz = this.sound.add('somfeliz')
+    this.somfeliz.play()
   }
 
   update () { }

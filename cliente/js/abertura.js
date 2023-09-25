@@ -5,6 +5,11 @@ export default class abertura extends Phaser.Scene {
 
   preload () {
     this.load.image('capa', '../assets/capa.png')
+
+    this.load.spritesheet('tela-cheia', './assets/tela-cheia.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    })
   }
 
   create () {
@@ -13,6 +18,19 @@ export default class abertura extends Phaser.Scene {
       .on('pointerdown', () => {
         this.game.scene.stop('abertura')
         this.game.scene.start('principal')
+      })
+
+    this.tela_cheia = this.add
+      .sprite(750, 50, 'tela-cheia', 0)
+      .setInteractive()
+      .on('pointerdown', () => {
+        if (this.scale.isFullscreen) {
+          this.tela_cheia.setFrame(0)
+          this.scale.stopFullscreen()
+        } else {
+          this.tela_cheia.setFrame(1)
+          this.scale.startFullscreen()
+        }
       })
   }
 

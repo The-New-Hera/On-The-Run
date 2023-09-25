@@ -46,14 +46,16 @@ export default class principal extends Phaser.Scene {
 
     this.load.audio('metal', '../assets/metal.mp3')
     this.load.audio('somdepulo', '../assets/somdepulo.mp3')
-    this.load.audio('trilha', '../assets/techno.mp3')
+    this.load.audio('trilha', '../assets/trilha.mp3')
     this.load.audio('grade', '../assets/grade.mp3')
     this.load.audio('palanque', '../assets/palanque.mp3')
+    this.load.audio('trava', '../assets/trava.mp3')
   }
 
   create () {
     this.trilha = this.sound.add('trilha')
     this.efeitoMetal = this.sound.add('metal')
+    this.efeitoTrava = this.sound.add('trava')
     this.somdepulo = this.sound.add('somdepulo')
     this.grade = this.sound.add('grade')
     this.palanque = this.sound.add('palanque')
@@ -228,13 +230,27 @@ export default class principal extends Phaser.Scene {
       null,
       this
     )
+
+    this.physics.add.overlap(
+      this.personagem,
+      this.botao,
+      this.apertar_botao,
+      null,
+      this
+    )
   }
 
-  update () { }
+  update () {
+  }
 
   coletar_moeda () {
     this.efeitoMetal.play()
     this.moeda.disableBody(true, true)
+  }
+
+  apertar_botao () {
+    this.efeitoTrava.play()
+    this.botao.disableBody(true, true)
   }
 
   morreu () {
@@ -243,7 +259,8 @@ export default class principal extends Phaser.Scene {
     this.personagem.anims.play('alienrosa-parado')
     this.personagem.x = this.x
     this.personagem.y = this.y
-    this.game.scene.stop()
+    this.trilha.stop()
+    this.game.scene.stop('principal')
     this.game.scene.start('finaltriste')
   }
 }
