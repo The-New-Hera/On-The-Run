@@ -19,6 +19,16 @@ export default class principal extends Phaser.Scene {
       frameHeight: 32
     })
 
+    this.load.spritesheet('nave', '../assets/nave.png', {
+      frameWidth: 128,
+      frameHeight: 128
+    })
+
+    this.load.spritesheet('botao', '../assets/botao.png', {
+      frameWidth: 32,
+      frameHeight: 32
+    })
+
     this.load.spritesheet('alienrosa', '../assets/alienrosa.png', {
       frameWidth: 40,
       frameHeight: 52
@@ -158,7 +168,8 @@ export default class principal extends Phaser.Scene {
       repeat: -1
     })
 
-    this.moeda = this.physics.add.sprite(200, -30, 'moeda')
+    this.moeda = this.physics.add.sprite(-200, -30, 'moeda')
+    this.moeda.body.setAllowGravity(false)
 
     this.anims.create({
       key: 'moeda-brilhando',
@@ -221,6 +232,7 @@ export default class principal extends Phaser.Scene {
     this.layerChamas.setCollisionByProperty({ collides: true })
 
     this.physics.add.collider(this.personagem, this.layerPiso)
+    this.physics.add.collider(this.moeda, this.layerPiso)
     this.physics.add.collider(this.personagem, this.layerChamas, this.morreu, null, this)
 
     this.physics.add.overlap(
