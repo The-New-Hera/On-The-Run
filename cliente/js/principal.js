@@ -2,7 +2,7 @@ export default class principal extends Phaser.Scene {
   constructor () {
     super('principal')
 
-    this.velocidade = 500
+    this.velocidade = 350
     this.x = 400
     this.y = -1400
   }
@@ -27,6 +27,16 @@ export default class principal extends Phaser.Scene {
     this.load.spritesheet('botao', '../assets/botao.png', {
       frameWidth: 32,
       frameHeight: 32
+    })
+
+    this.load.spritesheet('vigagrande', '../assets/vigagrande.png', {
+      frameWidth: 448,
+      frameHeight: 64
+    })
+
+    this.load.spritesheet('vigapequena', '../assets/vigapequena.png', {
+      frameWidth: 192,
+      frameHeight: 64
     })
 
     this.load.spritesheet('alienrosa', '../assets/alienrosa.png', {
