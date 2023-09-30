@@ -254,6 +254,8 @@ export default class principal extends Phaser.Scene {
     this.physics.add.collider(this.moeda, this.layerPiso)
     this.physics.add.collider(this.botao, this.layerPiso)
     this.physics.add.collider(this.nave, this.layerPiso)
+    this.physics.add.collider(this.vigagrande, this.layerPiso)
+    this.physics.add.collider(this.vigapequena, this.layerPiso)
     this.physics.add.collider(this.personagem, this.vigagrande)
     this.physics.add.collider(this.personagem, this.vigapequena)
     this.physics.add.collider(this.personagem, this.layerChamas, this.morreu, null, this)
