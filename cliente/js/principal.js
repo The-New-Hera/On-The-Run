@@ -28,7 +28,7 @@ export default class principal extends Phaser.Scene {
     })
 
     this.load.spritesheet('vigagrande', '../assets/vigagrande.png', {
-      frameWidth: 448,
+      frameWidth: 384,
       frameHeight: 64
     })
 
@@ -184,6 +184,12 @@ export default class principal extends Phaser.Scene {
     this.nave = this.physics.add.sprite(-100, -25, 'nave')
     this.nave.body.setAllowGravity(false)
 
+    this.vigagrande = this.physics.add.sprite(-63, -542, 'vigagrande')
+    this.vigagrande.body.setAllowGravity(false)
+
+    this.vigapequena = this.physics.add.sprite(1567, -543, 'vigapequena')
+    this.vigapequena.body.setAllowGravity(false)
+
     this.anims.create({
       key: 'moeda-brilhando',
       frames: this.anims.generateFrameNumbers('moeda', {
@@ -248,6 +254,8 @@ export default class principal extends Phaser.Scene {
     this.physics.add.collider(this.moeda, this.layerPiso)
     this.physics.add.collider(this.botao, this.layerPiso)
     this.physics.add.collider(this.nave, this.layerPiso)
+    this.physics.add.collider(this.personagem, this.vigagrande)
+    this.physics.add.collider(this.personagem, this.vigapequena)
     this.physics.add.collider(this.personagem, this.layerChamas, this.morreu, null, this)
     this.physics.add.collider(this.personagem, this.nave, this.venceu, null, this)
 
