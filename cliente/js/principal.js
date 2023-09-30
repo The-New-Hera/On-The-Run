@@ -3,8 +3,6 @@ export default class principal extends Phaser.Scene {
     super('principal')
 
     this.velocidade = 350
-    this.x = 400
-    this.y = -1400
   }
 
   preload () {
@@ -20,8 +18,8 @@ export default class principal extends Phaser.Scene {
     })
 
     this.load.spritesheet('nave', '../assets/nave.png', {
-      frameWidth: 128,
-      frameHeight: 128
+      frameWidth: 192,
+      frameHeight: 192
     })
 
     this.load.spritesheet('botao', '../assets/botao.png', {
@@ -94,9 +92,8 @@ export default class principal extends Phaser.Scene {
     this.layerChamas = this.tilemapPrincipal.createLayer('chamas', [this.tilesetFogo])
     this.layerPiso = this.tilemapPrincipal.createLayer('piso', [this.tilesetBlocoroxo])
 
-    /* Personagem */
-    // this.personagem = this.physics.add.sprite(400, -1400, 'alienverde')
-    this.personagem = this.physics.add.sprite(this.x, this.y, 'alienrosa')
+    // this.personagem = this.physics.add.sprite(-60, -990, 'alienverde')
+    this.personagem = this.physics.add.sprite(-90, -1370, 'alienrosa')
     this.cameras.main.startFollow(this.personagem)
 
     /* Animações */
@@ -112,8 +109,8 @@ export default class principal extends Phaser.Scene {
     this.anims.create({
       key: 'alienrosa-parado',
       frames: this.anims.generateFrameNumbers('alienrosa', {
-        start: 10,
-        end: 10
+        start: 9,
+        end: 9
       }),
       frameRate: 1
     })
@@ -122,7 +119,7 @@ export default class principal extends Phaser.Scene {
       key: 'alienverde-direita',
       frames: this.anims.generateFrameNumbers('alienverde', {
         start: 12,
-        end: 19
+        end: 17
       }),
       frameRate: 6,
       repeat: -1
@@ -178,8 +175,14 @@ export default class principal extends Phaser.Scene {
       repeat: -1
     })
 
-    this.moeda = this.physics.add.sprite(-200, -30, 'moeda')
+    this.moeda = this.physics.add.sprite(1350, -540, 'moeda')
     this.moeda.body.setAllowGravity(false)
+
+    this.botao = this.physics.add.sprite(50, -975, 'botao')
+    this.botao.body.setAllowGravity(false)
+
+    this.nave = this.physics.add.sprite(-100, -25, 'nave')
+    this.nave.body.setAllowGravity(false)
 
     this.anims.create({
       key: 'moeda-brilhando',
@@ -243,7 +246,10 @@ export default class principal extends Phaser.Scene {
 
     this.physics.add.collider(this.personagem, this.layerPiso)
     this.physics.add.collider(this.moeda, this.layerPiso)
+    this.physics.add.collider(this.botao, this.layerPiso)
+    this.physics.add.collider(this.nave, this.layerPiso)
     this.physics.add.collider(this.personagem, this.layerChamas, this.morreu, null, this)
+    this.physics.add.collider(this.personagem, this.nave, this.venceu, null, this)
 
     this.physics.add.overlap(
       this.personagem,
@@ -284,5 +290,16 @@ export default class principal extends Phaser.Scene {
     this.trilha.stop()
     this.game.scene.stop('principal')
     this.game.scene.start('finaltriste')
+  }
+
+  venceu () {
+    this.personagem.setVelocityX(0)
+    this.personagem.setVelocityY(0)
+    this.personagem.anims.play('alienrosa-parado')
+    this.personagem.x = this.x
+    this.personagem.y = this.y
+    this.trilha.stop()
+    this.game.scene.stop('principal')
+    this.game.scene.start('finalfeliz')
   }
 }
