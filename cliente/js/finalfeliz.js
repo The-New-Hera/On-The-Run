@@ -9,14 +9,17 @@ export default class finalfeliz extends Phaser.Scene {
   }
 
   create () {
+    this.somfeliz = this.sound.add('somfeliz')
+    this.somfeliz.loop = true
+    this.somfeliz.play()
+
     this.add.image(this.game.config.width * 0.5, this.game.config.height * 0.5, 'finalfeliz')
       .setInteractive()
       .on('pointerdown', () => {
+        this.somfeliz.stop()
         this.game.scene.stop('finalfeliz')
         this.game.scene.start('abertura')
       })
-    this.somfeliz = this.sound.add('somfeliz')
-    this.somfeliz.play()
   }
 
   update () { }

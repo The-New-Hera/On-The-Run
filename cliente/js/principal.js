@@ -181,14 +181,26 @@ export default class principal extends Phaser.Scene {
     this.botao = this.physics.add.sprite(50, -975, 'botao')
     this.botao.body.setAllowGravity(false)
 
+    this.anims.create({
+      key: 'botao-pressionado',
+      frames: this.anims.generateFrameNumbers('botao', {
+        start: 0,
+        end: 2
+      }),
+      frameRate: 2,
+      repeat: 0
+    })
+
     this.nave = this.physics.add.sprite(-100, -25, 'nave')
     this.nave.body.setAllowGravity(false)
 
     this.vigagrande = this.physics.add.sprite(-63, -542, 'vigagrande')
     this.vigagrande.body.setAllowGravity(false)
+    this.vigagrande.setImmovable(true)
 
     this.vigapequena = this.physics.add.sprite(1567, -543, 'vigapequena')
     this.vigapequena.body.setAllowGravity(false)
+    this.vigapequena.setImmovable(true)
 
     this.anims.create({
       key: 'moeda-brilhando',
@@ -287,8 +299,11 @@ export default class principal extends Phaser.Scene {
   }
 
   apertar_botao () {
-    this.efeitoTrava.play()
-    this.botao.disableBody(true, true)
+    /* Frame menor que 2 = botão ainda não pressionado */
+    if (this.botao.frame.name < 2) {
+      this.efeitoTrava.play()
+      this.botao.anims.play('botao-pressionado')
+    }
   }
 
   morreu () {
