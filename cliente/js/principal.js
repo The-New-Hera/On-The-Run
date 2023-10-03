@@ -37,6 +37,16 @@ export default class principal extends Phaser.Scene {
       frameHeight: 64
     })
 
+    this.load.spritesheet('primeirolaser', '../assets/primeirolaser.png', {
+      frameWidth: 32,
+      frameHeight: 384
+    })
+
+    this.load.spritesheet('segundolaser', '../assets/segundolaser.png', {
+      frameWidth: 32,
+      frameHeight: 320
+    })
+
     this.load.spritesheet('alienrosa', '../assets/alienrosa.png', {
       frameWidth: 40,
       frameHeight: 52
@@ -62,21 +72,21 @@ export default class principal extends Phaser.Scene {
       frameHeight: 64
     })
 
-    this.load.audio('metal', '../assets/metal.mp3')
-    this.load.audio('somdepulo', '../assets/somdepulo.mp3')
     this.load.audio('trilha', '../assets/trilha.mp3')
-    this.load.audio('grade', '../assets/grade.mp3')
-    this.load.audio('palanque', '../assets/palanque.mp3')
-    this.load.audio('trava', '../assets/trava.mp3')
+    this.load.audio('metal', '../assets/metal.mp3')
+    this.load.audio('somdobotao', '../assets/somdobotao.mp3')
+    this.load.audio('somdepulo', '../assets/somdepulo.mp3')
+    this.load.audio('somdasvigas', '../assets/somdasvigas.mp3')
+    this.load.audio('somdolaser', '../assets/somdolaser.mp3')
   }
 
   create () {
     this.trilha = this.sound.add('trilha')
     this.efeitoMetal = this.sound.add('metal')
-    this.efeitoTrava = this.sound.add('trava')
+    this.efeitoSomdobotao = this.sound.add('somdobotao')
     this.somdepulo = this.sound.add('somdepulo')
-    this.grade = this.sound.add('grade')
-    this.palanque = this.sound.add('palanque')
+    this.somdasvigas = this.sound.add('somdasvigas')
+    this.somdolaser = this.sound.add('somdolaser')
     this.trilha.loop = true
     this.trilha.play()
 
@@ -268,8 +278,11 @@ export default class principal extends Phaser.Scene {
     this.physics.add.collider(this.nave, this.layerPiso)
     this.physics.add.collider(this.vigagrande, this.layerPiso)
     this.physics.add.collider(this.vigapequena, this.layerPiso)
+    this.physics.add.collider(this.laser, this.layerPiso)
     this.physics.add.collider(this.personagem, this.vigagrande)
     this.physics.add.collider(this.personagem, this.vigapequena)
+    this.physics.add.collider(this.personagem, this.laser)
+    this.physics.add.collider(this.personagem, this.laser, this.morreu, null, this)
     this.physics.add.collider(this.personagem, this.layerChamas, this.morreu, null, this)
     this.physics.add.collider(this.personagem, this.nave, this.venceu, null, this)
 
@@ -290,8 +303,7 @@ export default class principal extends Phaser.Scene {
     )
   }
 
-  update () {
-  }
+  update () { }
 
   coletar_moeda () {
     this.efeitoMetal.play()
@@ -301,7 +313,7 @@ export default class principal extends Phaser.Scene {
   apertar_botao () {
     /* Frame menor que 2 = botão ainda não pressionado */
     if (this.botao.frame.name < 2) {
-      this.efeitoTrava.play()
+      this.efeitoSomdobotao.play()
       this.botao.anims.play('botao-pressionado')
     }
   }
