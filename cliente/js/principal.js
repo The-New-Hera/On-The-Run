@@ -27,6 +27,16 @@ export default class principal extends Phaser.Scene {
       frameHeight: 32
     })
 
+    this.load.spritesheet('botaodois', '../assets/botaodois.png', {
+      frameWidth: 32,
+      frameHeight: 32
+    })
+
+    this.load.spritesheet('botaotres', '../assets/botaotres.png', {
+      frameWidth: 32,
+      frameHeight: 32
+    })
+
     this.load.spritesheet('vigagrande', '../assets/vigagrande.png', {
       frameWidth: 384,
       frameHeight: 64
@@ -102,8 +112,9 @@ export default class principal extends Phaser.Scene {
     this.layerChamas = this.tilemapPrincipal.createLayer('chamas', [this.tilesetFogo])
     this.layerPiso = this.tilemapPrincipal.createLayer('piso', [this.tilesetBlocoroxo])
 
-    // this.personagem = this.physics.add.sprite(-60, -990, 'alienverde')
-    this.personagem = this.physics.add.sprite(-90, -1370, 'alienrosa')
+    // this.personagem = this.physics.add.sprite(-90, -990, 'alienverde')
+    // this.personagem = this.physics.add.sprite(-90, -1370, 'alienrosa')
+    this.personagem = this.physics.add.sprite(150, -1370, 'alienrosa')
     this.cameras.main.startFollow(this.personagem)
 
     /* Animações */
@@ -188,12 +199,38 @@ export default class principal extends Phaser.Scene {
     this.moeda = this.physics.add.sprite(1350, -540, 'moeda')
     this.moeda.body.setAllowGravity(false)
 
-    this.botao = this.physics.add.sprite(50, -975, 'botao')
+    this.botao = this.physics.add.sprite(225, -975, 'botao')
     this.botao.body.setAllowGravity(false)
+
+    this.botaodois = this.physics.add.sprite(282, -590, 'botaodois')
+    this.botaodois.body.setAllowGravity(false)
+
+    this.botaotres = this.physics.add.sprite(1760, -336, 'botaotres')
+    this.botaotres.body.setAllowGravity(false)
 
     this.anims.create({
       key: 'botao-pressionado',
       frames: this.anims.generateFrameNumbers('botao', {
+        start: 0,
+        end: 2
+      }),
+      frameRate: 2,
+      repeat: 0
+    })
+
+    this.anims.create({
+      key: 'botaodois-pressionado',
+      frames: this.anims.generateFrameNumbers('botaodois', {
+        start: 0,
+        end: 2
+      }),
+      frameRate: 2,
+      repeat: 0
+    })
+
+    this.anims.create({
+      key: 'botaotres-pressionado',
+      frames: this.anims.generateFrameNumbers('botaotres', {
         start: 0,
         end: 2
       }),
@@ -206,11 +243,19 @@ export default class principal extends Phaser.Scene {
 
     this.vigagrande = this.physics.add.sprite(-63, -542, 'vigagrande')
     this.vigagrande.body.setAllowGravity(false)
-    this.vigagrande.setImmovable(true)
+    //this.vigagrande.setImmovable(true)
 
     this.vigapequena = this.physics.add.sprite(1567, -543, 'vigapequena')
     this.vigapequena.body.setAllowGravity(false)
     this.vigapequena.setImmovable(true)
+
+    this.primeirolaser = this.physics.add.sprite(68, -1535, 'primeirolaser')
+    this.primeirolaser.body.setAllowGravity(false)
+    this.primeirolaser.setImmovable(true)
+
+    this.segundolaser = this.physics.add.sprite(68, -1120, 'segundolaser')
+    this.segundolaser.body.setAllowGravity(false)
+    this.segundolaser.setImmovable(true)
 
     this.anims.create({
       key: 'moeda-brilhando',
@@ -275,14 +320,19 @@ export default class principal extends Phaser.Scene {
     this.physics.add.collider(this.personagem, this.layerPiso)
     this.physics.add.collider(this.moeda, this.layerPiso)
     this.physics.add.collider(this.botao, this.layerPiso)
+    this.physics.add.collider(this.botaodois, this.layerPiso)
+    this.physics.add.collider(this.botaotres, this.layerPiso)
     this.physics.add.collider(this.nave, this.layerPiso)
     this.physics.add.collider(this.vigagrande, this.layerPiso)
     this.physics.add.collider(this.vigapequena, this.layerPiso)
-    this.physics.add.collider(this.laser, this.layerPiso)
+    this.physics.add.collider(this.primeirolaser, this.layerPiso)
+    this.physics.add.collider(this.segundolaser, this.layerPiso)
     this.physics.add.collider(this.personagem, this.vigagrande)
     this.physics.add.collider(this.personagem, this.vigapequena)
-    this.physics.add.collider(this.personagem, this.laser)
-    this.physics.add.collider(this.personagem, this.laser, this.morreu, null, this)
+    this.physics.add.collider(this.personagem, this.primeirolaser)
+    this.physics.add.collider(this.personagem, this.segundolaser)
+    this.physics.add.collider(this.personagem, this.primeirolaser, this.morreu, null, this)
+    this.physics.add.collider(this.personagem, this.segundolaser, this.morreu, null, this)
     this.physics.add.collider(this.personagem, this.layerChamas, this.morreu, null, this)
     this.physics.add.collider(this.personagem, this.nave, this.venceu, null, this)
 
@@ -301,6 +351,22 @@ export default class principal extends Phaser.Scene {
       null,
       this
     )
+
+    this.physics.add.overlap(
+      this.personagem,
+      this.botaodois,
+      this.apertar_botaodois,
+      null,
+      this
+    )
+
+    this.physics.add.overlap(
+      this.personagem,
+      this.botaotres,
+      this.apertar_botaotres,
+      null,
+      this
+    )
   }
 
   update () { }
@@ -315,6 +381,22 @@ export default class principal extends Phaser.Scene {
     if (this.botao.frame.name < 2) {
       this.efeitoSomdobotao.play()
       this.botao.anims.play('botao-pressionado')
+    }
+  }
+
+  apertar_botaodois () {
+    /* Frame menor que 2 = botão ainda não pressionado */
+    if (this.botaodois.frame.name < 2) {
+      this.efeitoSomdobotao.play()
+      this.botaodois.anims.play('botaodois-pressionado')
+    }
+  }
+
+  apertar_botaotres () {
+    /* Frame menor que 2 = botão ainda não pressionado */
+    if (this.botaotres.frame.name < 2) {
+      this.efeitoSomdobotao.play()
+      this.botaotres.anims.play('botaotres-pressionado')
     }
   }
 
