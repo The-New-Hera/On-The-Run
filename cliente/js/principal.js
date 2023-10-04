@@ -2,7 +2,7 @@ export default class principal extends Phaser.Scene {
   constructor () {
     super('principal')
 
-    this.velocidade = 350
+    this.velocidade = 300
   }
 
   preload () {
@@ -113,8 +113,8 @@ export default class principal extends Phaser.Scene {
     this.layerPiso = this.tilemapPrincipal.createLayer('piso', [this.tilesetBlocoroxo])
 
     // this.personagem = this.physics.add.sprite(-90, -990, 'alienverde')
-    // this.personagem = this.physics.add.sprite(-90, -1370, 'alienrosa')
-    this.personagem = this.physics.add.sprite(150, -1370, 'alienrosa')
+    this.personagem = this.physics.add.sprite(-90, -1370, 'alienrosa')
+    // this.personagem = this.physics.add.sprite(150, -1370, 'alienrosa')
     this.cameras.main.startFollow(this.personagem)
 
     /* Animações */
@@ -329,8 +329,6 @@ export default class principal extends Phaser.Scene {
     this.physics.add.collider(this.segundolaser, this.layerPiso)
     this.physics.add.collider(this.personagem, this.vigagrande)
     this.physics.add.collider(this.personagem, this.vigapequena)
-    this.physics.add.collider(this.personagem, this.primeirolaser)
-    this.physics.add.collider(this.personagem, this.segundolaser)
     this.physics.add.collider(this.personagem, this.primeirolaser, this.morreu, null, this)
     this.physics.add.collider(this.personagem, this.segundolaser, this.morreu, null, this)
     this.physics.add.collider(this.personagem, this.layerChamas, this.morreu, null, this)
