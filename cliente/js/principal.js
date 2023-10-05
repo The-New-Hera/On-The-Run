@@ -243,7 +243,7 @@ export default class principal extends Phaser.Scene {
 
     this.vigagrande = this.physics.add.sprite(-63, -542, 'vigagrande')
     this.vigagrande.body.setAllowGravity(false)
-    //this.vigagrande.setImmovable(true)
+    // this.vigagrande.setImmovable(true)
 
     this.vigapequena = this.physics.add.sprite(1567, -543, 'vigapequena')
     this.vigapequena.body.setAllowGravity(false)
