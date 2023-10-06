@@ -88,6 +88,7 @@ export default class principal extends Phaser.Scene {
     this.load.audio('somdepulo', '../assets/somdepulo.mp3')
     this.load.audio('somdasvigas', '../assets/somdasvigas.mp3')
     this.load.audio('somdolaser', '../assets/somdolaser.mp3')
+    this.load.audio('queda-energia', './assets/queda-energia.mp3')
   }
 
   create () {
@@ -97,6 +98,7 @@ export default class principal extends Phaser.Scene {
     this.somdepulo = this.sound.add('somdepulo')
     this.somdasvigas = this.sound.add('somdasvigas')
     this.somdolaser = this.sound.add('somdolaser')
+    this.quedaEnergia = this.sound.add('queda-energia')
     this.trilha.loop = true
     this.trilha.play()
 
@@ -365,6 +367,26 @@ export default class principal extends Phaser.Scene {
       null,
       this
     )
+
+    this.timer = 3
+    this.timerEvent = this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.timer--
+        if (this.timer === 0) {
+          this.trilha.pause()
+          this.cameras.main.fadeOut(2000)
+          this.quedaEnergia.play()
+          this.cameras.main.once('camerafadeoutcomplete', (camera) => {
+            camera.fadeIn(2000)
+            this.trilha.resume()
+          })
+          this.timerEvent.destroy()
+        }
+      },
+      callbackScope: this,
+      loop: true
+    })
   }
 
   update () { }
