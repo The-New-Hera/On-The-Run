@@ -17,7 +17,7 @@ export default class abertura extends Phaser.Scene {
       .setInteractive()
       .on('pointerdown', () => {
         this.game.scene.stop('abertura')
-        this.game.scene.start('principal')
+        this.game.scene.start('sala')
       })
 
     this.tela_cheia = this.add

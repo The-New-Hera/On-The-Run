@@ -114,9 +114,13 @@ export default class principal extends Phaser.Scene {
     this.layerChamas = this.tilemapPrincipal.createLayer('chamas', [this.tilesetFogo])
     this.layerPiso = this.tilemapPrincipal.createLayer('piso', [this.tilesetBlocoroxo])
 
-    // this.personagem = this.physics.add.sprite(-90, -990, 'alienverde')
-    this.personagem = this.physics.add.sprite(-90, -1370, 'alienrosa')
-    // this.personagem = this.physics.add.sprite(150, -1370, 'alienrosa')
+    if (this.game.jogadores.primeiro === this.game.socket.id) {
+      this.personagem = this.physics.add.sprite(-225, -1370, 'alienrosa')
+    } else if (this.game.jogadores.segundo === this.game.socket.id) {
+      this.personagem = this.physics.add.sprite(-225, -990, 'alienverde')
+    } else {
+    }
+
     this.cameras.main.startFollow(this.personagem)
 
     /* Animações */
@@ -377,6 +381,7 @@ export default class principal extends Phaser.Scene {
           this.trilha.pause()
           this.cameras.main.fadeOut(2000)
           this.quedaEnergia.play()
+          this.primeirolaser.disableBody(true, true)
           this.cameras.main.once('camerafadeoutcomplete', (camera) => {
             camera.fadeIn(2000)
             this.trilha.resume()

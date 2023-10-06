@@ -20,20 +20,18 @@ export default class sala extends Phaser.Scene {
     ]
 
     this.salas.forEach((sala) => {
-      sala.botao = this.add
-        .text(sala.x, sala.y, 'Sala ' + sala.numero)
+      sala.botao = this.add.text(sala.x, sala.y, 'Sala ' + sala.numero)
         .setInteractive()
         .on('pointerdown', () => {
-          this.game.socket.emit('entrar-na-sala', sala.numero)
-
-          this.aguarde = this.add
-            .text(this.game.config.width / 2, this.game.config.height / 2, 'Conectando...')
           this.game.socket.on('jogadores', (jogadores) => {
             this.game.jogadores = jogadores
-            this.aguarde.destroy()
+            console.log(jogadores)
             this.game.scene.stop('sala')
             this.game.scene.start('principal')
           })
+          this.game.socket.emit('entrar-na-sala', sala.numero)
+          this.aguarde = this.add
+            .text(this.game.config.width / 2, this.game.config.height / 2, 'Conectando...')
         })
     })
   }
