@@ -14,48 +14,48 @@ export default class sala extends Phaser.Scene {
       },
       {
         numero: 2,
-        x: 215,
+        x: 213,
         y: 100
       },
       {
         numero: 3,
-        x: 380,
+        x: 376,
         y: 100
       },
       {
         numero: 4,
-        x: 545,
+        x: 539,
         y: 100
       },
       {
         numero: 5,
-        x: 710,
+        x: 702,
         y: 100
       },
       {
         numero: 6,
         x: 50,
-        y: 300
+        y: 325
       },
       {
         numero: 7,
-        x: 215,
-        y: 300
+        x: 213,
+        y: 325
       },
       {
         numero: 8,
-        x: 380,
-        y: 300
+        x: 376,
+        y: 325
       },
       {
         numero: 9,
-        x: 545,
-        y: 300
+        x: 539,
+        y: 325
       },
       {
         numero: 10,
-        x: 710,
-        y: 300
+        x: 702,
+        y: 325
       }
     ]
 
