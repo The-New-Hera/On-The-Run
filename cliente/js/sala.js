@@ -9,13 +9,53 @@ export default class sala extends Phaser.Scene {
     this.salas = [
       {
         numero: 1,
-        x: 100,
+        x: 50,
         y: 100
       },
       {
         numero: 2,
-        x: 200,
+        x: 215,
         y: 100
+      },
+      {
+        numero: 3,
+        x: 380,
+        y: 100
+      },
+      {
+        numero: 4,
+        x: 545,
+        y: 100
+      },
+      {
+        numero: 5,
+        x: 710,
+        y: 100
+      },
+      {
+        numero: 6,
+        x: 50,
+        y: 300
+      },
+      {
+        numero: 7,
+        x: 215,
+        y: 300
+      },
+      {
+        numero: 8,
+        x: 380,
+        y: 300
+      },
+      {
+        numero: 9,
+        x: 545,
+        y: 300
+      },
+      {
+        numero: 10,
+        x: 710,
+        y: 300
       }
     ]
 
