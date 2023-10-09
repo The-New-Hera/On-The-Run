@@ -59,12 +59,12 @@ export default class principal extends Phaser.Scene {
 
     this.load.spritesheet('alienrosa', '../assets/alienrosa.png', {
       frameWidth: 40,
-      frameHeight: 52
+      frameHeight: 54
     })
 
     this.load.spritesheet('alienverde', '../assets/alienverde.png', {
       frameWidth: 40,
-      frameHeight: 52
+      frameHeight: 54
     })
 
     this.load.spritesheet('direita', '../assets/direita.png', {
@@ -115,27 +115,25 @@ export default class principal extends Phaser.Scene {
     this.layerPiso = this.tilemapPrincipal.createLayer('piso', [this.tilesetBlocoroxo])
 
     if (this.game.jogadores.primeiro === this.game.socket.id) {
-      this.personagem = this.physics.add.sprite(-225, -1370, 'alienrosa')
+      this.local = 'alienrosa'
+      this.remoto = 'alienverde'
+      this.personagem = this.physics.add.sprite(-225, -1370, this.local, 9)
+      this.personagemRemoto = this.add.sprite(-225, -990, this.remoto, 9)
     } else if (this.game.jogadores.segundo === this.game.socket.id) {
-      this.personagem = this.physics.add.sprite(-225, -990, 'alienverde')
+      this.local = 'alienverde'
+      this.remoto = 'alienrosa'
+      this.personagemRemoto = this.add.sprite(-225, -1370, this.remoto, 9)
+      this.personagem = this.physics.add.sprite(-225, -990, this.local, 9)
     } else {
+
     }
 
     this.cameras.main.startFollow(this.personagem)
 
     /* Animações */
     this.anims.create({
-      key: 'alienverde-parado',
-      frames: this.anims.generateFrameNumbers('alienverde', {
-        start: 11,
-        end: 11
-      }),
-      frameRate: 1
-    })
-
-    this.anims.create({
-      key: 'alienrosa-parado',
-      frames: this.anims.generateFrameNumbers('alienrosa', {
+      key: 'personagem-parado',
+      frames: this.anims.generateFrameNumbers(this.local, {
         start: 9,
         end: 9
       }),
@@ -143,19 +141,9 @@ export default class principal extends Phaser.Scene {
     })
 
     this.anims.create({
-      key: 'alienverde-direita',
-      frames: this.anims.generateFrameNumbers('alienverde', {
-        start: 12,
-        end: 17
-      }),
-      frameRate: 6,
-      repeat: -1
-    })
-
-    this.anims.create({
-      key: 'alienrosa-direita',
-      frames: this.anims.generateFrameNumbers('alienrosa', {
-        start: 11,
+      key: 'personagem-direita',
+      frames: this.anims.generateFrameNumbers(this.local, {
+        start: 10,
         end: 18
       }),
       frameRate: 6,
@@ -163,19 +151,9 @@ export default class principal extends Phaser.Scene {
     })
 
     this.anims.create({
-      key: 'alienverde-esquerda',
-      frames: this.anims.generateFrameNumbers('alienverde', {
-        start: 1,
-        end: 10
-      }),
-      frameRate: 6,
-      repeat: -1
-    })
-
-    this.anims.create({
-      key: 'alienrosa-esquerda',
-      frames: this.anims.generateFrameNumbers('alienrosa', {
-        start: 1,
+      key: 'personagem-esquerda',
+      frames: this.anims.generateFrameNumbers(this.local, {
+        start: 0,
         end: 8
       }),
       frameRate: 6,
@@ -183,20 +161,10 @@ export default class principal extends Phaser.Scene {
     })
 
     this.anims.create({
-      key: 'alienverde-cima',
-      frames: this.anims.generateFrameNumbers('alienverde', {
+      key: 'personagem-cima',
+      frames: this.anims.generateFrameNumbers(this.local, {
         start: 11,
         end: 11
-      }),
-      frameRate: 6,
-      repeat: -1
-    })
-
-    this.anims.create({
-      key: 'alienrosa-cima',
-      frames: this.anims.generateFrameNumbers('alienrosa', {
-        start: 10,
-        end: 10
       }),
       frameRate: 6,
       repeat: -1
@@ -281,12 +249,12 @@ export default class principal extends Phaser.Scene {
       .setInteractive()
       .on('pointerdown', () => {
         this.direita.setFrame(1)
-        this.personagem.anims.play('alienrosa-direita', true)
+        this.personagem.anims.play('personagem-direita', true)
         this.personagem.setVelocityX(this.velocidade)
       })
       .on('pointerup', () => {
         this.direita.setFrame(0)
-        this.personagem.anims.play('alienrosa-parado')
+        this.personagem.anims.play('personagem-parado')
         this.personagem.setVelocityX(0)
       })
 
@@ -295,12 +263,12 @@ export default class principal extends Phaser.Scene {
       .setInteractive()
       .on('pointerdown', () => {
         this.esquerda.setFrame(1)
-        this.personagem.anims.play('alienrosa-esquerda', true)
+        this.personagem.anims.play('personagem-esquerda', true)
         this.personagem.setVelocityX(-this.velocidade)
       })
       .on('pointerup', () => {
         this.esquerda.setFrame(0)
-        this.personagem.anims.play('alienrosa-parado')
+        this.personagem.anims.play('personagem-parado')
         this.personagem.setVelocityX(0)
       })
 
@@ -310,14 +278,14 @@ export default class principal extends Phaser.Scene {
       .on('pointerdown', () => {
         this.cima.setFrame(1)
         if (this.personagem.body.blocked.down) {
-          this.personagem.anims.play('alienrosa-cima', true)
+          this.personagem.anims.play('personagem-cima', true)
           this.personagem.setVelocityY(-this.velocidade)
           this.somdepulo.play()
         }
       })
       .on('pointerup', () => {
         this.cima.setFrame(0)
-        this.personagem.anims.play('alienrosa-parado')
+        this.personagem.anims.play('personagem-parado')
       })
 
     this.layerPiso.setCollisionByProperty({ collides: true })
