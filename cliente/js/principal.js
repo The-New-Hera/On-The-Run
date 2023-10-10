@@ -163,8 +163,8 @@ export default class principal extends Phaser.Scene {
     this.anims.create({
       key: 'personagem-cima',
       frames: this.anims.generateFrameNumbers(this.local, {
-        start: 11,
-        end: 11
+        start: 9,
+        end: 9
       }),
       frameRate: 6,
       repeat: -1
