@@ -70,6 +70,7 @@ export default class sala extends Phaser.Scene {
             this.game.scene.start('principal')
           })
           this.game.socket.emit('entrar-na-sala', sala.numero)
+          this.game.sala = sala.numero
           this.aguarde = this.add
             .text(this.game.config.width / 2, this.game.config.height / 2, 'Conectando...')
         })
