@@ -124,8 +124,6 @@ export default class principal extends Phaser.Scene {
       this.remoto = 'alienrosa'
       this.personagemRemoto = this.add.sprite(-225, -1370, this.remoto, 9)
       this.personagem = this.physics.add.sprite(-225, -990, this.local, 9)
-    } else {
-
     }
 
     this.cameras.main.startFollow(this.personagem)
