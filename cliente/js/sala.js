@@ -6,31 +6,37 @@ export default class sala extends Phaser.Scene {
   preload () { }
 
   create () {
+    this.mensagem = this.add.text(190, 50, 'Escolha uma sala para entrar:', {
+      fontFamily: 'monospace',
+      font: '24px Courier',
+      fill: '#cccccc'
+    })
+
     this.salas = [
       {
         numero: 1,
         x: 50,
-        y: 100
+        y: 125
       },
       {
         numero: 2,
         x: 213,
-        y: 100
+        y: 125
       },
       {
         numero: 3,
         x: 376,
-        y: 100
+        y: 125
       },
       {
         numero: 4,
         x: 539,
-        y: 100
+        y: 125
       },
       {
         numero: 5,
         x: 702,
-        y: 100
+        y: 125
       },
       {
         numero: 6,
@@ -60,20 +66,37 @@ export default class sala extends Phaser.Scene {
     ]
 
     this.salas.forEach((sala) => {
-      sala.botao = this.add.text(sala.x, sala.y, 'Sala ' + sala.numero)
+      sala.botao = this.add.text(sala.x, sala.y, 'Sala ' + sala.numero, {
+        fontFamily: 'monospace',
+        font: '16px Courier',
+        fill: '#cccccc'
+      })
         .setInteractive()
         .on('pointerdown', () => {
-          this.game.socket.on('jogadores', (jogadores) => {
-            this.game.jogadores = jogadores
-            console.log(jogadores)
-            this.game.scene.stop('sala')
-            this.game.scene.start('principal')
+          this.salas.forEach((item) => {
+            item.botao.destroy()
           })
-          this.game.socket.emit('entrar-na-sala', sala.numero)
           this.game.sala = sala.numero
-          this.aguarde = this.add
-            .text(this.game.config.width / 2, this.game.config.height / 2, 'Conectando...')
+          this.game.socket.emit('entrar-na-sala', this.game.sala)
         })
+    })
+
+    this.game.socket.on('jogadores', (jogadores) => {
+      console.log(jogadores)
+      if (jogadores.segundo) {
+        this.mensagem.setText('Conectando...')
+        this.game.jogadores = jogadores
+        this.game.scene.stop('sala')
+        this.game.scene.start('principal')
+      } else if (jogadores.primeiro) {
+        this.mensagem.setText('Aguardando segundo jogador...')
+        navigator.mediaDevices
+          .getUserMedia({ video: false, audio: true })
+          .then((stream) => {
+            this.game.midias = stream
+          })
+          .catch((error) => console.error(error))
+      }
     })
   }
 
