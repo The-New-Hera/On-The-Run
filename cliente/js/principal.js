@@ -2,7 +2,7 @@ export default class principal extends Phaser.Scene {
   constructor () {
     super('principal')
 
-    this.velocidade = 300
+    this.velocidade = 350
   }
 
   preload () {
@@ -144,7 +144,7 @@ export default class principal extends Phaser.Scene {
         start: 10,
         end: 18
       }),
-      frameRate: 6,
+      frameRate: 15,
       repeat: -1
     })
 
@@ -154,7 +154,7 @@ export default class principal extends Phaser.Scene {
         start: 0,
         end: 8
       }),
-      frameRate: 6,
+      frameRate: 15,
       repeat: -1
     })
 
@@ -215,7 +215,7 @@ export default class principal extends Phaser.Scene {
 
     this.vigagrande = this.physics.add.sprite(-63, -542, 'vigagrande')
     this.vigagrande.body.setAllowGravity(false)
-    // this.vigagrande.setImmovable(true)
+    this.vigagrande.setImmovable(true)
 
     this.vigapequena = this.physics.add.sprite(1567, -543, 'vigapequena')
     this.vigapequena.body.setAllowGravity(false)
@@ -364,6 +364,18 @@ export default class principal extends Phaser.Scene {
       this.personagemRemoto.y = y
       this.personagemRemoto.setFrame(frame)
     })
+
+    this.game.socket.on('artefatos-notificar', (artefatos) => {
+      if (artefatos.segundolaser) {
+        this.segundolaser.disableBody(true, true)
+      }
+      if (artefatos.vigagrande) {
+        this.vigagrande.body.setAllowGravity(true)
+      }
+      if (artefatos.vigapequena) {
+        this.vigapequena.setVelocityX(50)
+      }
+    })
   }
 
   update () {
@@ -389,6 +401,10 @@ export default class principal extends Phaser.Scene {
     if (this.botao.frame.name < 2) {
       this.efeitoSomdobotao.play()
       this.botao.anims.play('botao-pressionado')
+      this.segundolaser.disableBody(true, true)
+      this.game.socket.emit('artefatos-publicar', this.game.sala, {
+        segundolaser: true
+      })
     }
   }
 
@@ -397,6 +413,10 @@ export default class principal extends Phaser.Scene {
     if (this.botaodois.frame.name < 2) {
       this.efeitoSomdobotao.play()
       this.botaodois.anims.play('botaodois-pressionado')
+      this.vigagrande.body.setAllowGravity(true)
+      this.game.socket.emit('artefatos-publicar', this.game.sala, {
+        vigagrande: true
+      })
     }
   }
 
@@ -405,6 +425,10 @@ export default class principal extends Phaser.Scene {
     if (this.botaotres.frame.name < 2) {
       this.efeitoSomdobotao.play()
       this.botaotres.anims.play('botaotres-pressionado')
+      this.vigapequena.setVelocityX(50)
+      this.game.socket.emit('artefatos-publicar', this.game.sala, {
+        vigapequena: true
+      })
     }
   }
 
