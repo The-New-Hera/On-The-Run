@@ -9,6 +9,9 @@ class Game extends Phaser.Game {
   constructor () {
     super(config)
 
+    this.id = 1
+    this.valor = 100
+
     let iceServers
     if (window.location.host === 'feira-de-jogos.sj.ifsc.edu.br') {
       iceServers = [
@@ -42,7 +45,7 @@ class Game extends Phaser.Game {
     this.scene.add('finalfeliz', finalfeliz)
     this.scene.add('finaltriste', finaltriste)
 
-    this.scene.start('abertura')
+    this.scene.start('finalfeliz')
   }
 }
 
