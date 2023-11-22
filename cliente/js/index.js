@@ -4,12 +4,13 @@ import sala from './sala.js'
 import principal from './principal.js'
 import finalfeliz from './finalfeliz.js'
 import finaltriste from './finaltriste.js'
+import cenafinal from './cenafinal.js'
 
 class Game extends Phaser.Game {
   constructor () {
     super(config)
 
-    this.id = 1
+    this.id = 8
     this.valor = 100
 
     let iceServers
@@ -44,6 +45,7 @@ class Game extends Phaser.Game {
     this.scene.add('principal', principal)
     this.scene.add('finalfeliz', finalfeliz)
     this.scene.add('finaltriste', finaltriste)
+    this.scene.add('cenafinal', cenafinal)
 
     this.scene.start('abertura')
   }
