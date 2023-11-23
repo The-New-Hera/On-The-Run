@@ -37,6 +37,11 @@ export default class principal extends Phaser.Scene {
       frameHeight: 32
     })
 
+    this.load.spritesheet('botaoquatro', '../assets/botaoquatro.png', {
+      frameWidth: 32,
+      frameHeight: 32
+    })
+
     this.load.spritesheet('vigagrande', '../assets/vigagrande.png', {
       frameWidth: 384,
       frameHeight: 64
@@ -118,12 +123,12 @@ export default class principal extends Phaser.Scene {
       this.local = 'alienrosa'
       this.remoto = 'alienverde'
       this.personagem = this.physics.add.sprite(-225, -1370, this.local, 9)
-      this.personagemRemoto = this.add.sprite(-225, -990, this.remoto, 9)
+      this.personagemRemoto = this.add.sprite(-225, -980, this.remoto, 9)
     } else if (this.game.jogadores.segundo === this.game.socket.id) {
       this.local = 'alienverde'
       this.remoto = 'alienrosa'
       this.personagemRemoto = this.add.sprite(-225, -1370, this.remoto, 9)
-      this.personagem = this.physics.add.sprite(-225, -990, this.local, 9)
+      this.personagem = this.physics.add.sprite(-225, -980, this.local, 9)
 
       navigator.mediaDevices.getUserMedia({ video: false, audio: true })
         .then((stream) => {
@@ -228,6 +233,9 @@ export default class principal extends Phaser.Scene {
     this.botaotres = this.physics.add.sprite(1760, -336, 'botaotres')
     this.botaotres.body.setAllowGravity(false)
 
+    this.botaoquatro = this.physics.add.sprite(358, -335, 'botaoquatro')
+    this.botaoquatro.body.setAllowGravity(false)
+
     this.anims.create({
       key: 'botao-pressionado',
       frames: this.anims.generateFrameNumbers('botao', {
@@ -251,6 +259,16 @@ export default class principal extends Phaser.Scene {
     this.anims.create({
       key: 'botaotres-pressionado',
       frames: this.anims.generateFrameNumbers('botaotres', {
+        start: 0,
+        end: 2
+      }),
+      frameRate: 2,
+      repeat: 0
+    })
+
+    this.anims.create({
+      key: 'botaoquatro-pressionado',
+      frames: this.anims.generateFrameNumbers('botaoquatro', {
         start: 0,
         end: 2
       }),
@@ -342,6 +360,7 @@ export default class principal extends Phaser.Scene {
     this.physics.add.collider(this.botao, this.layerPiso)
     this.physics.add.collider(this.botaodois, this.layerPiso)
     this.physics.add.collider(this.botaotres, this.layerPiso)
+    this.physics.add.collider(this.botaoquatro, this.layerPiso)
     this.physics.add.collider(this.nave, this.layerPiso)
     this.physics.add.collider(this.vigagrande, this.layerPiso)
     this.physics.add.collider(this.vigapequena, this.layerPiso)
@@ -382,6 +401,14 @@ export default class principal extends Phaser.Scene {
       this.personagem,
       this.botaotres,
       this.apertar_botaotres,
+      null,
+      this
+    )
+
+    this.physics.add.overlap(
+      this.personagem,
+      this.botaoquatro,
+      this.apertar_botaoquatro,
       null,
       this
     )
@@ -473,9 +500,21 @@ export default class principal extends Phaser.Scene {
     if (this.botaotres.frame.name < 2) {
       this.efeitoSomdobotao.play()
       this.botaotres.anims.play('botaotres-pressionado')
-      this.vigapequena.setVelocityX(50)
+      this.vigapequena.setVelocityX(-50)
       this.game.socket.emit('artefatos-publicar', this.game.sala, {
         vigapequena: true
+      })
+    }
+  }
+
+  apertar_botaoquatro () {
+    /* Frame menor que 2 = botão ainda não pressionado */
+    if (this.botaoquatro.frame.name < 2) {
+      this.efeitoSomdobotao.play()
+      this.botaoquatro.anims.play('botaoquatro-pressionado')
+      this.vigagrande.body.setAllowGravity(true)
+      this.game.socket.emit('artefatos-publicar', this.game.sala, {
+        vigagrande: true
       })
     }
   }
