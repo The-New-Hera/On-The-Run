@@ -543,7 +543,6 @@ export default class principal extends Phaser.Scene {
     this.personagem.x = this.x
     this.personagem.y = this.y
     this.trilha.stop()
-    this.game.socket.emit('cena-publicar', this.game.sala, 'finalfeliz')
     this.game.scene.stop('principal')
     this.game.scene.start('finalfeliz')
   }
