@@ -451,6 +451,11 @@ export default class principal extends Phaser.Scene {
         this.vigapequena.setVelocityX(50)
       }
     })
+
+    this.game.socket.on('cena-notificar', (cena) => {
+      this.game.scene.stop('principal')
+      this.game.scene.start(cena)
+    })
   }
 
   update () {
@@ -526,6 +531,7 @@ export default class principal extends Phaser.Scene {
     this.personagem.x = this.x
     this.personagem.y = this.y
     this.trilha.stop()
+    this.game.socket.emit('cena-publicar', this.game.sala, 'finaltriste')
     this.game.scene.stop('principal')
     this.game.scene.start('finaltriste')
   }
@@ -537,6 +543,7 @@ export default class principal extends Phaser.Scene {
     this.personagem.x = this.x
     this.personagem.y = this.y
     this.trilha.stop()
+    this.game.socket.emit('cena-publicar', this.game.sala, 'finalfeliz')
     this.game.scene.stop('principal')
     this.game.scene.start('finalfeliz')
   }
