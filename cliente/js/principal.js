@@ -439,23 +439,23 @@ export default class principal extends Phaser.Scene {
         y: this.personagem.y,
         frame: this.personagem.frame.name
       })
+
+      if (
+        Phaser.Geom.Intersects.RectangleToRectangle(
+          this.personagem.getBounds(),
+          this.nave.getBounds()
+        ) &&
+        Phaser.Geom.Intersects.RectangleToRectangle(
+          this.personagemRemoto.getBounds(),
+          this.nave.getBounds()
+        )
+      ) {
+        this.game.socket.emit('cena-publicar', this.game.sala, 'finalfeliz')
+        this.game.scene.stop('principal')
+        this.game.scene.start('finalfeliz')
+      }
     } catch (error) {
       console.error(error)
-    }
-
-    if (
-      Phaser.Geom.Intersects.RectangleToRectangle(
-        this.personagem.getBounds(),
-        this.nave.getBounds()
-      ) &&
-      Phaser.Geom.Intersects.RectangleToRectangle(
-        this.personagemRemoto.getBounds(),
-        this.nave.getBounds()
-      )
-    ) {
-      this.game.socket.emit('cena-publicar', this.game.sala, 'finalfeliz')
-      this.game.scene.stop('principal')
-      this.game.scene.start('finalfeliz')
     }
   }
 
