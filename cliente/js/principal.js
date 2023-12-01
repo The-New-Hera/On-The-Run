@@ -493,7 +493,7 @@ export default class principal extends Phaser.Scene {
     if (this.botaotres.frame.name < 2) {
       this.efeitoSomdobotao.play()
       this.botaotres.anims.play('botaotres-pressionado')
-      this.vigapequena.setVelocityX(-50)
+      this.vigapequena.setVelocityX(50)
       this.game.socket.emit('artefatos-publicar', this.game.sala, {
         vigapequena: true
       })
